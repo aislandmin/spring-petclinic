@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven'
+        maven 'maven39'
     }
 
     parameters {
@@ -32,14 +32,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Compiling source code..."
-                sh 'mvn clean compile'
+                bat 'mvn clean compile'
             }
         }
 
         stage('Unit Test') {
             steps {
                 echo "Running unit tests..."
-                sh 'mvn test'
+                bat 'mvn test'
             }
             post {
                 always {
@@ -51,7 +51,7 @@ pipeline {
         stage('Code Coverage (JaCoCo)') {
             steps {
                 echo 'Generating JaCoCo coverage report...'
-                sh 'mvn jacoco:report'
+                bat 'mvn jacoco:report'
             }
         }
 
@@ -68,7 +68,7 @@ pipeline {
         stage('Package') {
             steps {
                 echo "Packaging application..."
-                sh 'mvn package -DskipTests'
+                bat 'mvn package -DskipTests'
                 archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
